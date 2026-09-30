@@ -22,6 +22,17 @@ fi
 # because the paths weights/ and images/ are relatives
 cd "$(dirname "$0")"
 
+# Download the weights from Hugging Face only if they are missing
+HF_URL="https://huggingface.co/DiegoXAI-Shape/abbadon-engine/resolve/main"
+mkdir -p weights
+for f in Daowa_Oracle_Frozen.pt mendicant_bias_cpp.pt; do
+    if [ ! -f "weights/$f" ]; then
+        echo "==> Downloading weights/$f from Hugging Face..."
+        # -f: fail on HTTP errors instead of saving an error page as the .pt
+        curl -fL -o "weights/$f" "$HF_URL/$f"
+    fi
+done
+
 # Configure only if don't exist build/
 if [ ! -d build ]; then
     echo "==> Configuring CMake (first time)..."

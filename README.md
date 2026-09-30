@@ -50,8 +50,19 @@ pip install torch==2.12.1 --index-url https://download.pytorch.org/whl/cu130
 
 ### 2. Weights
 
-The `.pt` files are larger than 100 MB, so they are **not** in the repo.
-Put them in `weights/`:
+The `.pt` files are larger than 100 MB, so they live on Hugging Face:
+[DiegoXAI-Shape/abbadon-engine](https://huggingface.co/DiegoXAI-Shape/abbadon-engine).
+
+`setup.sh` downloads them automatically if they are missing. To download them by hand:
+
+```bash
+mkdir -p weights
+for f in Daowa_Oracle_Frozen.pt mendicant_bias_cpp.pt; do
+  curl -L -o "weights/$f" "https://huggingface.co/DiegoXAI-Shape/abbadon-engine/resolve/main/$f"
+done
+```
+
+or with the Hugging Face CLI: `hf download DiegoXAI-Shape/abbadon-engine --local-dir weights`
 
 ```
 weights/
